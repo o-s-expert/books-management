@@ -8,7 +8,7 @@ Sample Helidon MP project that includes multiple REST operations.
 With JDK21
 ```bash
 mvn package
-java -jar target/movies.jar
+java -jar target/Genre.jar
 ```
 
 ## Exercise the application
