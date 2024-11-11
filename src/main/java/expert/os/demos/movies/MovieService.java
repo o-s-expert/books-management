@@ -28,6 +28,10 @@ public class MovieService {
         this.movieMapper = movieMapper;
     }
 
+    public MovieService() {
+        this(null, null);
+    }
+
     public List<MovieResponse> getAllMovies(int page, int size) {
         LOGGER.log(Level.INFO, "Fetching all movies with page: {0} and size: {1}", new Object[]{page, size});
         PageRequest pageable = PageRequest.ofPage(page).size(size);
