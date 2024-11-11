@@ -1,0 +1,91 @@
+= movies
+:toc: auto
+
+Sample Helidon MP project that includes multiple REST operations.
+
+== Build and run
+
+With JDK21
+
+[source,bash]
+----
+mvn package
+java -jar target/Genre.jar
+----
+
+== Exercise the application
+
+Basic:
+
+[source,bash]
+----
+curl -X GET http://localhost:8080/simple-greet
+----
+Expected Output:
+`Hello World!`
+
+JSON:
+
+[source,bash]
+----
+curl -X GET http://localhost:8080/greet
+----
+Expected Output:
+`{"message":"Hello World!"}`
+
+[source,bash]
+----
+curl -X GET http://localhost:8080/greet/Joe
+----
+Expected Output:
+`{"message":"Hello Joe!"}`
+
+[source,bash]
+----
+curl -X PUT -H "Content-Type: application/json" -d '{"greeting" : "Hola"}' http://localhost:8080/greet/greeting
+----
+
+[source,bash]
+----
+curl -X GET http://localhost:8080/greet/Jose
+----
+Expected Output:
+`{"message":"Hola Jose!"}`
+
+== Try health
+
+[source,bash]
+----
+curl -s -X GET http://localhost:8080/health
+----
+Expected Output:
+`{"outcome":"UP",...}`
+
+== Try metrics
+
+Prometheus Format:
+
+[source,bash]
+----
+curl -s -X GET http://localhost:8080/metrics
+----
+Output:
+`# TYPE base:gc_g1_young_generation_count gauge...`
+
+JSON Format:
+
+[source,bash]
+----
+curl -H 'Accept: application/json' -X GET http://localhost:8080/metrics
+----
+Expected Output:
+`{"base":...}`
+
+== Building the Docker Image
+
+[source,bash]
+----
+docker build -t movies .
+----
+
+== Running th
