@@ -1,11 +1,28 @@
 = movies
 :toc: auto
 
-Sample Helidon MP project that includes multiple REST operations.
+Sample Helidon MP project that includes multiple REST operations. This project requires Oracle NoSQL for data storage, which can be run locally or online.
+
+== Requirements
+
+This application requires Oracle NoSQL Database, which can be set up to run locally using Docker.
+
+== Setting up Oracle NoSQL Locally with Docker
+
+To run Oracle NoSQL Database locally, use the following Docker command:
+
+[source,bash]
+----
+docker run -d --name oracle-instance -p 8080:8080 ghcr.io/oracle/nosql:latest-ce
+----
+
+This command starts an Oracle NoSQL instance running on port `8080` of your local machine.
+
+Alternatively, you may run Oracle NoSQL Database online. For more details, refer to Oracle's official documentation on running NoSQL in the cloud.
 
 == Build and run
 
-With JDK21
+To build and run this project, use JDK 21.
 
 [source,bash]
 ----
@@ -13,8 +30,11 @@ mvn package
 java -jar target/movies.jar
 ----
 
+The application will start on `localhost` at port `8181`.
 
-== Try health
+== Try Health Check
+
+To verify if the application is running, check its health status with:
 
 [source,bash]
 ----
@@ -23,31 +43,102 @@ curl -s -X GET http://localhost:8181/health
 Expected Output:
 `{"outcome":"UP",...}`
 
-== Try metrics
+== Try Metrics
 
-Prometheus Format:
+You can retrieve application metrics in Prometheus or JSON format.
+
+=== Prometheus Format
 
 [source,bash]
 ----
 curl -s -X GET http://localhost:8181/metrics
 ----
-Output:
+Expected Output:
 `# TYPE base:gc_g1_young_generation_count gauge...`
 
-JSON Format:
+=== JSON Format
 
 [source,bash]
 ----
-curl -H 'Accept: application/json' -X GET http://localhost:8080/metrics
+curl -H 'Accept: application/json' -X GET http://localhost:8181/metrics
 ----
 Expected Output:
 `{"base":...}`
 
+== OpenAPI UI
+
+This project includes an OpenAPI UI, which provides an interactive interface for exploring and testing API endpoints.
+
+To access the OpenAPI UI, navigate to the following URL in your browser:
+
+http://localhost:8181/openapi/ui/index.html#
+
+The OpenAPI UI displays all available API endpoints and allows you to test requests directly within the browser.
+
+== Using the OpenAPI Endpoints with curl
+
+Below are examples of using `curl` to interact with the API.
+
+[source,bash]
+----
+# Example: Fetch all movies
+curl -X GET http://localhost:8181/movies
+
+# Example: Add a new movie
+curl -X POST -H "Content-Type: application/json" -d '{"title": "Inception", "genre": "SCIENCE_FICTION", "releaseYear": 2010, "director": "Christopher Nolan", "actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt"]}' http://localhost:8181/movies
+
+# Example: Update a movie
+curl -X PUT -H "Content-Type: application/json" -d '{"title": "Inception", "genre": "SCIENCE_FICTION", "releaseYear": 2010, "director": "Christopher Nolan", "actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt"]}' http://localhost:8181/movies/{id}
+
+# Example: Delete a movie
+curl -X DELETE http://localhost:8181/movies/{id}
+----
+
 == Building the Docker Image
+
+To build a Docker image for the application:
 
 [source,bash]
 ----
 docker build -t movies .
 ----
 
-== Running th
+== Running the Docker Image
+
+To run the Docker image:
+
+[source,bash]
+----
+docker run --rm -p 8181:8181 movies:latest
+----
+
+== Run the Application in Kubernetes
+
+If you don’t have access to a Kubernetes cluster, you can https://helidon.io/docs/latest/#/about/kubernetes[install one] on your desktop.
+
+=== Verify connectivity to cluster
+
+[source,bash]
+----
+kubectl cluster-info                        # Verify which cluster
+kubectl get pods                            # Verify connectivity to cluster
+----
+
+=== Deploy the application to Kubernetes
+
+[source,bash]
+----
+kubectl create -f app.yaml                              # Deploy application
+kubectl get pods                                        # Wait for quickstart pod to be RUNNING
+kubectl get service movies                              # Get service info
+kubectl port-forward service/movies 8181:8080           # Forward service port to 8181
+----
+
+You can now exercise the application as described above but use port `8181`.
+
+After you're done, clean up:
+
+[source,bash]
+----
+kubectl delete -f app.yaml
+----
