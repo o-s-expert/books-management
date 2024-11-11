@@ -1,6 +1,6 @@
-package expert.os.demos.movies.domain;
+package expert.os.demos.books.domain;
 
-public enum Genre {
+public enum BookGenre {
     ACTION,
     COMEDY,
     DRAMA,

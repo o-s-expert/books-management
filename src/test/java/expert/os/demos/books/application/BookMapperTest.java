@@ -1,23 +1,20 @@
-package expert.os.demos.movies.application;
+package expert.os.demos.books.application;
 
-import expert.os.demos.movies.api.MovieRequest;
-import expert.os.demos.movies.api.MovieResponse;
-import expert.os.demos.movies.domain.Genre;
-import expert.os.demos.movies.domain.Movie;
+import expert.os.demos.books.api.BookRequest;
+import expert.os.demos.books.domain.BookGenre;
+import expert.os.demos.books.domain.Book;
 import org.assertj.core.api.SoftAssertions;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
-import java.time.Year;
 import java.util.Arrays;
 import java.util.UUID;
 
 import static org.instancio.Select.field;
-import static org.junit.jupiter.api.Assertions.*;
 
-class MovieMapperTest {
+class BookMapperTest {
 
     private MovieMapper movieMapper;
 
@@ -30,13 +27,13 @@ class MovieMapperTest {
     @Test
     void shouldMapMovieToMovieResponse() {
 
-        var movie = Instancio.of(Movie.class)
+        var movie = Instancio.of(Book.class)
                 .set(field("id"), UUID.randomUUID().toString())
                 .set(field("title"), "Inception")
-                .set(field("genre"), Genre.SCIENCE_FICTION)
-                .set(field("releaseYear"), 2010)
-                .set(field("director"), "Christopher Nolan")
-                .set(field("actors"), Arrays.asList("Leonardo DiCaprio", "Joseph Gordon-Levitt"))
+                .set(field("genre"), BookGenre.SCIENCE_FICTION)
+                .set(field("publicationYear"), 2010)
+                .set(field("author"), "Christopher Nolan")
+                .set(field("tags"), Arrays.asList("Leonardo DiCaprio", "Joseph Gordon-Levitt"))
                 .create();
 
         var movieResponse = movieMapper.toResponse(movie);
@@ -46,21 +43,21 @@ class MovieMapperTest {
             soft.assertThat(movieResponse.getId()).isEqualTo(movie.getId());
             soft.assertThat(movieResponse.getTitle()).isEqualTo(movie.getTitle());
             soft.assertThat(movieResponse.getGenre()).isEqualTo(movie.getGenre().toString());
-            soft.assertThat(movieResponse.getReleaseYear()).isEqualTo(movie.getReleaseYear());
-            soft.assertThat(movieResponse.getDirector()).isEqualTo(movie.getDirector());
-            soft.assertThat(movieResponse.getActors()).isEqualTo(movie.getActors());
+            soft.assertThat(movieResponse.getPublicationYear()).isEqualTo(movie.getPublicationYear());
+            soft.assertThat(movieResponse.getAuthor()).isEqualTo(movie.getAuthor());
+            soft.assertThat(movieResponse.getTags()).isEqualTo(movie.getTags());
         });
     }
 
     @Test
     void shouldMapMovieRequestToMovieWithNewUUID() {
 
-        var movieRequest = new MovieRequest();
+        var movieRequest = new BookRequest();
         movieRequest.setTitle("Inception");
         movieRequest.setGenre("SCIENCE_FICTION");
-        movieRequest.setReleaseYear(2010);
-        movieRequest.setDirector("Christopher Nolan");
-        movieRequest.setActors(Arrays.asList("Leonardo DiCaprio", "Joseph Gordon-Levitt"));
+        movieRequest.setPublicationYear(2010);
+        movieRequest.setAuthor("Christopher Nolan");
+        movieRequest.setTags(Arrays.asList("Leonardo DiCaprio", "Joseph Gordon-Levitt"));
 
         var movie = movieMapper.toEntity(movieRequest);
 
@@ -68,10 +65,10 @@ class MovieMapperTest {
             soft.assertThat(movie).isNotNull();
             soft.assertThat(movie.getId()).isNotNull();
             soft.assertThat(movie.getTitle()).isEqualTo(movieRequest.getTitle());
-            soft.assertThat(movie.getGenre()).isEqualTo(Genre.valueOf(movieRequest.getGenre()));
-            soft.assertThat(movie.getReleaseYear()).isEqualTo(movieRequest.getReleaseYear());
-            soft.assertThat(movie.getDirector()).isEqualTo(movieRequest.getDirector());
-            soft.assertThat(movie.getActors()).isEqualTo(movieRequest.getActors());
+            soft.assertThat(movie.getGenre()).isEqualTo(BookGenre.valueOf(movieRequest.getGenre()));
+            soft.assertThat(movie.getPublicationYear()).isEqualTo(movieRequest.getPublicationYear());
+            soft.assertThat(movie.getAuthor()).isEqualTo(movieRequest.getAuthor());
+            soft.assertThat(movie.getTags()).isEqualTo(movieRequest.getTags());
         });
     }
 }

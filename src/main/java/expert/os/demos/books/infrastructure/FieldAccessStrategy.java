@@ -1,4 +1,4 @@
-package expert.os.demos.movies.infrastructure;
+package expert.os.demos.books.infrastructure;
 
 import jakarta.json.bind.config.PropertyVisibilityStrategy;
 

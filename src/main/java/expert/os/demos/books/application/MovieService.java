@@ -1,9 +1,9 @@
-package expert.os.demos.movies.application;
+package expert.os.demos.books.application;
 
-import expert.os.demos.movies.api.MovieRequest;
-import expert.os.demos.movies.api.MovieResponse;
-import expert.os.demos.movies.domain.Movie;
-import expert.os.demos.movies.domain.MovieRepository;
+import expert.os.demos.books.api.BookRequest;
+import expert.os.demos.books.api.BookResponse;
+import expert.os.demos.books.domain.Book;
+import expert.os.demos.books.domain.BookRepository;
 import jakarta.data.Order;
 import jakarta.data.Sort;
 import jakarta.data.page.Page;
@@ -24,14 +24,14 @@ import java.util.stream.Collectors;
 public class MovieService {
 
     private static final Logger LOGGER = Logger.getLogger(MovieService.class.getName());
-    public static final Order<Movie> ORDER = Order.by(Sort.asc("title"));
-    private final MovieRepository movieRepository;
+    public static final Order<Book> ORDER = Order.by(Sort.asc("title"));
+    private final BookRepository bookRepository;
 
     private final MovieMapper movieMapper;
 
     @Inject
-    public MovieService(@Database(DatabaseType.DOCUMENT) MovieRepository movieRepository, MovieMapper movieMapper) {
-        this.movieRepository = movieRepository;
+    public MovieService(@Database(DatabaseType.DOCUMENT) BookRepository bookRepository, MovieMapper movieMapper) {
+        this.bookRepository = bookRepository;
         this.movieMapper = movieMapper;
     }
 
@@ -39,21 +39,21 @@ public class MovieService {
         this(null, null);
     }
 
-    public List<MovieResponse> getAllMovies(int page, int size) {
+    public List<BookResponse> getAllMovies(int page, int size) {
         LOGGER.log(Level.INFO, "Fetching all movies with page: {0} and size: {1}", new Object[]{page, size});
         PageRequest pageable = PageRequest.ofPage(page).size(size);
 
-        Page<Movie> moviePage = movieRepository.findAll(pageable, ORDER);
-        List<MovieResponse> movies = moviePage.stream()
+        Page<Book> moviePage = bookRepository.findAll(pageable, ORDER);
+        List<BookResponse> movies = moviePage.stream()
                 .map(movieMapper::toResponse)
                 .collect(Collectors.toList());
         LOGGER.log(Level.INFO, "Retrieved {0} movies", movies.size());
         return movies;
     }
 
-    public Optional<MovieResponse> getMovieById(String id) {
+    public Optional<BookResponse> getMovieById(String id) {
         LOGGER.log(Level.INFO, "Fetching movie with ID: {0}", id);
-        Optional<MovieResponse> movieResponse = movieRepository.findById(id)
+        Optional<BookResponse> movieResponse = bookRepository.findById(id)
                 .map(movieMapper::toResponse);
         if (movieResponse.isPresent()) {
             LOGGER.log(Level.INFO, "Movie found with ID: {0}", id);
@@ -63,28 +63,28 @@ public class MovieService {
         return movieResponse;
     }
 
-    public MovieResponse createMovie(MovieRequest movieRequest) {
-        LOGGER.log(Level.INFO, "Creating new movie with title: {0}", movieRequest.getTitle());
-        Movie movie = movieMapper.toEntity(movieRequest, UUID.randomUUID().toString());
-        Movie savedMovie = movieRepository.save(movie);
-        LOGGER.log(Level.INFO, "Movie created with ID: {0}", savedMovie.getId());
-        return movieMapper.toResponse(savedMovie);
+    public BookResponse createMovie(BookRequest bookRequest) {
+        LOGGER.log(Level.INFO, "Creating new movie with title: {0}", bookRequest.getTitle());
+        Book book = movieMapper.toEntity(bookRequest, UUID.randomUUID().toString());
+        Book savedBook = bookRepository.save(book);
+        LOGGER.log(Level.INFO, "Movie created with ID: {0}", savedBook.getId());
+        return movieMapper.toResponse(savedBook);
     }
 
-    public Optional<MovieResponse> updateMovie(String id, MovieRequest movieRequest) {
+    public Optional<BookResponse> updateMovie(String id, BookRequest bookRequest) {
         LOGGER.log(Level.INFO, "Updating movie with ID: {0}", id);
-        return movieRepository.findById(id)
+        return bookRepository.findById(id)
                 .map(existingMovie -> {
-                    Movie updatedMovie = movieMapper.toEntity(movieRequest);
-                    existingMovie.update(updatedMovie);
-                    Movie savedMovie = movieRepository.save(updatedMovie);
+                    Book updatedBook = movieMapper.toEntity(bookRequest);
+                    existingMovie.update(updatedBook);
+                    Book savedBook = bookRepository.save(updatedBook);
                     LOGGER.log(Level.INFO, "Movie updated with ID: {0}", id);
-                    return movieMapper.toResponse(savedMovie);
+                    return movieMapper.toResponse(savedBook);
                 });
     }
 
     public void deleteMovie(String id) {
         LOGGER.log(Level.INFO, "Deleting movie with ID: {0}", id);
-        movieRepository.deleteById(id);
+        bookRepository.deleteById(id);
     }
 }
