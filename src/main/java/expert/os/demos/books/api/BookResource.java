@@ -1,7 +1,7 @@
 package expert.os.demos.books.api;
 
 
-import expert.os.demos.books.application.MovieService;
+import expert.os.demos.books.application.BookService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -23,17 +23,17 @@ import java.util.Optional;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Tag(name = "Movies", description = "Operations related to movies")
-public class MovieResource {
+public class BookResource {
 
 
-    private final MovieService movieService;
+    private final BookService bookService;
 
     @Inject
-    public MovieResource(MovieService movieService) {
-        this.movieService = movieService;
+    public BookResource(BookService bookService) {
+        this.bookService = bookService;
     }
 
-    public MovieResource() {
+    public BookResource() {
         this(null);
     }
 
@@ -46,7 +46,7 @@ public class MovieResource {
             @QueryParam("page") @DefaultValue("1") int page,
             @Parameter(description = "Number of items per page", example = "10")
             @QueryParam("size") @DefaultValue("10") int size) {
-        List<BookResponse> movies = movieService.getAllMovies(page, size);
+        List<BookResponse> movies = bookService.getAllMovies(page, size);
         return Response.ok(movies).build();
     }
 
@@ -59,7 +59,7 @@ public class MovieResource {
     public Response getMovieById(
             @Parameter(description = "ID of the movie to retrieve", required = true)
             @PathParam("id") String id) {
-        Optional<BookResponse> movieResponse = movieService.getMovieById(id);
+        Optional<BookResponse> movieResponse = bookService.findById(id);
         return movieResponse.map(Response::ok)
                 .orElse(Response.status(Response.Status.NOT_FOUND))
                 .build();
@@ -72,7 +72,7 @@ public class MovieResource {
     public Response createMovie(
             @Parameter(description = "Movie data to be created", required = true)
             BookRequest bookRequest) {
-        BookResponse bookResponse = movieService.createMovie(bookRequest);
+        BookResponse bookResponse = bookService.create(bookRequest);
         return Response.status(Response.Status.CREATED).entity(bookResponse).build();
     }
 
@@ -86,7 +86,7 @@ public class MovieResource {
             @PathParam("id") String id,
             @Parameter(description = "Updated movie data", required = true)
             BookRequest bookRequest) {
-        Optional<BookResponse> updatedMovie = movieService.updateMovie(id, bookRequest);
+        Optional<BookResponse> updatedMovie = bookService.update(id, bookRequest);
         return updatedMovie.map(Response::ok)
                 .orElse(Response.status(Response.Status.NOT_FOUND))
                 .build();
@@ -100,7 +100,7 @@ public class MovieResource {
     public Response deleteMovie(
             @Parameter(description = "ID of the movie to delete", required = true)
             @PathParam("id") String id) {
-        movieService.deleteMovie(id);
+        bookService.delete(id);
         return Response.noContent().build();
     }
 }

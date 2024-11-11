@@ -21,21 +21,21 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-public class MovieService {
+public class BookService {
 
-    private static final Logger LOGGER = Logger.getLogger(MovieService.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(BookService.class.getName());
     public static final Order<Book> ORDER = Order.by(Sort.asc("title"));
     private final BookRepository bookRepository;
 
     private final MovieMapper movieMapper;
 
     @Inject
-    public MovieService(@Database(DatabaseType.DOCUMENT) BookRepository bookRepository, MovieMapper movieMapper) {
+    public BookService(@Database(DatabaseType.DOCUMENT) BookRepository bookRepository, MovieMapper movieMapper) {
         this.bookRepository = bookRepository;
         this.movieMapper = movieMapper;
     }
 
-    public MovieService() {
+    public BookService() {
         this(null, null);
     }
 
@@ -51,7 +51,7 @@ public class MovieService {
         return movies;
     }
 
-    public Optional<BookResponse> getMovieById(String id) {
+    public Optional<BookResponse> findById(String id) {
         LOGGER.log(Level.INFO, "Fetching movie with ID: {0}", id);
         Optional<BookResponse> movieResponse = bookRepository.findById(id)
                 .map(movieMapper::toResponse);
@@ -63,7 +63,7 @@ public class MovieService {
         return movieResponse;
     }
 
-    public BookResponse createMovie(BookRequest bookRequest) {
+    public BookResponse create(BookRequest bookRequest) {
         LOGGER.log(Level.INFO, "Creating new movie with title: {0}", bookRequest.getTitle());
         Book book = movieMapper.toEntity(bookRequest, UUID.randomUUID().toString());
         Book savedBook = bookRepository.save(book);
@@ -71,7 +71,7 @@ public class MovieService {
         return movieMapper.toResponse(savedBook);
     }
 
-    public Optional<BookResponse> updateMovie(String id, BookRequest bookRequest) {
+    public Optional<BookResponse> update(String id, BookRequest bookRequest) {
         LOGGER.log(Level.INFO, "Updating movie with ID: {0}", id);
         return bookRepository.findById(id)
                 .map(existingMovie -> {
@@ -83,7 +83,7 @@ public class MovieService {
                 });
     }
 
-    public void deleteMovie(String id) {
+    public void delete(String id) {
         LOGGER.log(Level.INFO, "Deleting movie with ID: {0}", id);
         bookRepository.deleteById(id);
     }
