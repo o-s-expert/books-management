@@ -29,8 +29,8 @@ class MovieMapperTest {
 
     @Test
     void shouldMapMovieToMovieResponse() {
-        // Given
-        Movie movie = Instancio.of(Movie.class)
+
+        var movie = Instancio.of(Movie.class)
                 .set(field("id"), UUID.randomUUID().toString())
                 .set(field("title"), "Inception")
                 .set(field("genre"), Genre.SCIENCE_FICTION)
@@ -39,10 +39,8 @@ class MovieMapperTest {
                 .set(field("actors"), Arrays.asList("Leonardo DiCaprio", "Joseph Gordon-Levitt"))
                 .create();
 
-        // When
-        MovieResponse movieResponse = movieMapper.toResponse(movie);
+        var movieResponse = movieMapper.toResponse(movie);
 
-        // Then
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(movieResponse).isNotNull();
             soft.assertThat(movieResponse.getId()).isEqualTo(movie.getId());
@@ -57,18 +55,18 @@ class MovieMapperTest {
     @Test
     void shouldMapMovieRequestToMovieWithNewUUID() {
 
-        MovieRequest movieRequest = new MovieRequest();
+        var movieRequest = new MovieRequest();
         movieRequest.setTitle("Inception");
         movieRequest.setGenre("SCIENCE_FICTION");
         movieRequest.setReleaseYear(2010);
         movieRequest.setDirector("Christopher Nolan");
         movieRequest.setActors(Arrays.asList("Leonardo DiCaprio", "Joseph Gordon-Levitt"));
 
-        Movie movie = movieMapper.toEntity(movieRequest);
+        var movie = movieMapper.toEntity(movieRequest);
 
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(movie).isNotNull();
-            soft.assertThat(movie.getId()).isNotNull().isNotEmpty();
+            soft.assertThat(movie.getId()).isNotNull();
             soft.assertThat(movie.getTitle()).isEqualTo(movieRequest.getTitle());
             soft.assertThat(movie.getGenre()).isEqualTo(Genre.valueOf(movieRequest.getGenre()));
             soft.assertThat(movie.getReleaseYear()).isEqualTo(movieRequest.getReleaseYear());

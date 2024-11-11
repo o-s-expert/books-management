@@ -15,6 +15,7 @@ import org.eclipse.jnosql.mapping.DatabaseType;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -64,7 +65,7 @@ public class MovieService {
 
     public MovieResponse createMovie(MovieRequest movieRequest) {
         LOGGER.log(Level.INFO, "Creating new movie with title: {0}", movieRequest.getTitle());
-        Movie movie = movieMapper.toEntity(movieRequest);
+        Movie movie = movieMapper.toEntity(movieRequest, UUID.randomUUID().toString());
         Movie savedMovie = movieRepository.save(movie);
         LOGGER.log(Level.INFO, "Movie created with ID: {0}", savedMovie.getId());
         return movieMapper.toResponse(savedMovie);
