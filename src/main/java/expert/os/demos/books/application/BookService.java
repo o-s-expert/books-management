@@ -27,64 +27,64 @@ public class BookService {
     public static final Order<Book> ORDER = Order.by(Sort.asc("title"));
     private final BookRepository bookRepository;
 
-    private final MovieMapper movieMapper;
+    private final BookMapper bookMapper;
 
     @Inject
-    public BookService(@Database(DatabaseType.DOCUMENT) BookRepository bookRepository, MovieMapper movieMapper) {
+    public BookService(@Database(DatabaseType.DOCUMENT) BookRepository bookRepository, BookMapper bookMapper) {
         this.bookRepository = bookRepository;
-        this.movieMapper = movieMapper;
+        this.bookMapper = bookMapper;
     }
 
     public BookService() {
         this(null, null);
     }
 
-    public List<BookResponse> getAllMovies(int page, int size) {
-        LOGGER.log(Level.INFO, "Fetching all movies with page: {0} and size: {1}", new Object[]{page, size});
+    public List<BookResponse> getAllBooks(int page, int size) {
+        LOGGER.log(Level.INFO, "Fetching all books with page: {0} and size: {1}", new Object[]{page, size});
         PageRequest pageable = PageRequest.ofPage(page).size(size);
 
-        Page<Book> moviePage = bookRepository.findAll(pageable, ORDER);
-        List<BookResponse> movies = moviePage.stream()
-                .map(movieMapper::toResponse)
+        Page<Book> bookPage = bookRepository.findAll(pageable, ORDER);
+        List<BookResponse> books = bookPage.stream()
+                .map(bookMapper::toResponse)
                 .collect(Collectors.toList());
-        LOGGER.log(Level.INFO, "Retrieved {0} movies", movies.size());
-        return movies;
+        LOGGER.log(Level.INFO, "Retrieved {0} books", books.size());
+        return books;
     }
 
     public Optional<BookResponse> findById(String id) {
-        LOGGER.log(Level.INFO, "Fetching movie with ID: {0}", id);
-        Optional<BookResponse> movieResponse = bookRepository.findById(id)
-                .map(movieMapper::toResponse);
-        if (movieResponse.isPresent()) {
-            LOGGER.log(Level.INFO, "Movie found with ID: {0}", id);
+        LOGGER.log(Level.INFO, "Fetching book with ID: {0}", id);
+        Optional<BookResponse> bookResponse = bookRepository.findById(id)
+                .map(bookMapper::toResponse);
+        if (bookResponse.isPresent()) {
+            LOGGER.log(Level.INFO, "Book found with ID: {0}", id);
         } else {
-            LOGGER.log(Level.WARNING, "Movie not found with ID: {0}", id);
+            LOGGER.log(Level.WARNING, "Book not found with ID: {0}", id);
         }
-        return movieResponse;
+        return bookResponse;
     }
 
     public BookResponse create(BookRequest bookRequest) {
-        LOGGER.log(Level.INFO, "Creating new movie with title: {0}", bookRequest.getTitle());
-        Book book = movieMapper.toEntity(bookRequest, UUID.randomUUID().toString());
+        LOGGER.log(Level.INFO, "Creating new book with title: {0}", bookRequest.getTitle());
+        Book book = bookMapper.toEntity(bookRequest, UUID.randomUUID().toString());
         Book savedBook = bookRepository.save(book);
-        LOGGER.log(Level.INFO, "Movie created with ID: {0}", savedBook.getId());
-        return movieMapper.toResponse(savedBook);
+        LOGGER.log(Level.INFO, "Book created with ID: {0}", savedBook.getId());
+        return bookMapper.toResponse(savedBook);
     }
 
     public Optional<BookResponse> update(String id, BookRequest bookRequest) {
-        LOGGER.log(Level.INFO, "Updating movie with ID: {0}", id);
+        LOGGER.log(Level.INFO, "Updating book with ID: {0}", id);
         return bookRepository.findById(id)
-                .map(existingMovie -> {
-                    Book updatedBook = movieMapper.toEntity(bookRequest);
-                    existingMovie.update(updatedBook);
+                .map(existingBook -> {
+                    Book updatedBook = bookMapper.toEntity(bookRequest);
+                    existingBook.update(updatedBook);
                     Book savedBook = bookRepository.save(updatedBook);
-                    LOGGER.log(Level.INFO, "Movie updated with ID: {0}", id);
-                    return movieMapper.toResponse(savedBook);
+                    LOGGER.log(Level.INFO, "Book updated with ID: {0}", id);
+                    return bookMapper.toResponse(savedBook);
                 });
     }
 
     public void delete(String id) {
-        LOGGER.log(Level.INFO, "Deleting movie with ID: {0}", id);
+        LOGGER.log(Level.INFO, "Deleting book with ID: {0}", id);
         bookRepository.deleteById(id);
     }
 }

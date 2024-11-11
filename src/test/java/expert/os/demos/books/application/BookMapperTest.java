@@ -16,11 +16,11 @@ import static org.instancio.Select.field;
 
 class BookMapperTest {
 
-    private MovieMapper movieMapper;
+    private BookMapper bookMapper;
 
     @BeforeEach
     void setUp() {
-        movieMapper = Mappers.getMapper(MovieMapper.class);
+        bookMapper = Mappers.getMapper(BookMapper.class);
     }
 
 
@@ -36,7 +36,7 @@ class BookMapperTest {
                 .set(field("tags"), Arrays.asList("Leonardo DiCaprio", "Joseph Gordon-Levitt"))
                 .create();
 
-        var movieResponse = movieMapper.toResponse(movie);
+        var movieResponse = bookMapper.toResponse(movie);
 
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(movieResponse).isNotNull();
@@ -59,7 +59,7 @@ class BookMapperTest {
         movieRequest.setAuthor("Christopher Nolan");
         movieRequest.setTags(Arrays.asList("Leonardo DiCaprio", "Joseph Gordon-Levitt"));
 
-        var movie = movieMapper.toEntity(movieRequest);
+        var movie = bookMapper.toEntity(movieRequest);
 
         SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(movie).isNotNull();

@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "cdi")
-public interface MovieMapper {
+public interface BookMapper {
 
     BookResponse toResponse(Book book);
 
