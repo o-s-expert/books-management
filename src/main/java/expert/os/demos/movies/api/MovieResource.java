@@ -42,8 +42,8 @@ public class MovieResource {
     @APIResponse(responseCode = "200", description = "List of movies", content = @Content(mediaType = "application/json",
             schema = @Schema(implementation = MovieResponse.class)))
     public Response getAllMovies(
-            @Parameter(description = "Page number for pagination", example = "0")
-            @QueryParam("page") @DefaultValue("0") int page,
+            @Parameter(description = "Page number for pagination", example = "1")
+            @QueryParam("page") @DefaultValue("1") int page,
             @Parameter(description = "Number of items per page", example = "10")
             @QueryParam("size") @DefaultValue("10") int size) {
         List<MovieResponse> movies = movieService.getAllMovies(page, size);

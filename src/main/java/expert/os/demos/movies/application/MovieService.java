@@ -10,6 +10,8 @@ import jakarta.data.page.Page;
 import jakarta.data.page.PageRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.eclipse.jnosql.mapping.Database;
+import org.eclipse.jnosql.mapping.DatabaseType;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +29,7 @@ public class MovieService {
     private final MovieMapper movieMapper;
 
     @Inject
-    public MovieService(MovieRepository movieRepository, MovieMapper movieMapper) {
+    public MovieService(@Database(DatabaseType.DOCUMENT) MovieRepository movieRepository, MovieMapper movieMapper) {
         this.movieRepository = movieRepository;
         this.movieMapper = movieMapper;
     }
