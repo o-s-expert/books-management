@@ -10,7 +10,7 @@ With JDK21
 [source,bash]
 ----
 mvn package
-java -jar target/Genre.jar
+java -jar target/movies.jar
 ----
 
 == Exercise the application
