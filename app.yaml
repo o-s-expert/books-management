@@ -1,0 +1,37 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: movies
+  labels:
+    app: movies
+spec:
+  type: ClusterIP
+  selector:
+    app: movies
+  ports:
+    - name: tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: movies
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: movies
+  template:
+    metadata:
+      labels:
+        app: movies
+        version: v1
+    spec:
+      containers:
+      - name: movies
+        image: movies
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
