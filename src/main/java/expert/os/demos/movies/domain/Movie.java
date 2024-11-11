@@ -1,4 +1,4 @@
-package expert.os.demos.movies;
+package expert.os.demos.movies.domain;
 
 import jakarta.nosql.Column;
 import jakarta.nosql.Entity;

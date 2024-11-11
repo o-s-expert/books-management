@@ -1,6 +1,7 @@
-package expert.os.demos.movies;
+package expert.os.demos.movies.api;
 
 
+import expert.os.demos.movies.application.MovieService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;

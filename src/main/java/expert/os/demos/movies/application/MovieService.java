@@ -1,5 +1,9 @@
-package expert.os.demos.movies;
+package expert.os.demos.movies.application;
 
+import expert.os.demos.movies.api.MovieRequest;
+import expert.os.demos.movies.api.MovieResponse;
+import expert.os.demos.movies.domain.Movie;
+import expert.os.demos.movies.domain.MovieRepository;
 import jakarta.data.Order;
 import jakarta.data.Sort;
 import jakarta.data.page.Page;

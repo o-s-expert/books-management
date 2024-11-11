@@ -1,4 +1,4 @@
-package expert.os.demos.movies;
+package expert.os.demos.movies.domain;
 
 import jakarta.data.repository.BasicRepository;
 import jakarta.data.repository.Repository;

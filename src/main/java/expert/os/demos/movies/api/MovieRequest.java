@@ -1,5 +1,6 @@
-package expert.os.demos.movies;
+package expert.os.demos.movies.api;
 
+import expert.os.demos.movies.infrastructure.FieldAccessStrategy;
 import jakarta.json.bind.annotation.JsonbVisibility;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
