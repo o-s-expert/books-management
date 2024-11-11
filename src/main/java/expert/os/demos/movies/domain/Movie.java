@@ -11,7 +11,7 @@ import java.util.List;
 public class Movie {
 
     @Id
-    private String id;
+    private String id = java.util.UUID.randomUUID().toString();
 
     @Column
     private String title;
@@ -20,7 +20,7 @@ public class Movie {
     private Genre genre;
 
     @Column
-    private Year releaseYear;
+    private int releaseYear;
 
     @Column
     private String director;
@@ -41,7 +41,7 @@ public class Movie {
         return genre;
     }
 
-    public Year getReleaseYear() {
+    public int getReleaseYear() {
         return releaseYear;
     }
 

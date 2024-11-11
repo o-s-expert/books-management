@@ -28,4 +28,52 @@ public class MovieResponse {
 
     @Schema(description = "List of actors in the movie", example = "[\"Leonardo DiCaprio\", \"Joseph Gordon-Levitt\"]")
     private List<String> actors;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public List<String> getActors() {
+        return actors;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public void setActors(List<String> actors) {
+        this.actors = actors;
+    }
 }

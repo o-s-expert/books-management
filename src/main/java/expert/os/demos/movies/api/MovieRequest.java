@@ -45,4 +45,24 @@ public class MovieRequest {
     public List<String> getActors() {
         return actors;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public void setActors(List<String> actors) {
+        this.actors = actors;
+    }
 }
