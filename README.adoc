@@ -13,50 +13,12 @@ mvn package
 java -jar target/movies.jar
 ----
 
-== Exercise the application
-
-Basic:
-
-[source,bash]
-----
-curl -X GET http://localhost:8080/simple-greet
-----
-Expected Output:
-`Hello World!`
-
-JSON:
-
-[source,bash]
-----
-curl -X GET http://localhost:8080/greet
-----
-Expected Output:
-`{"message":"Hello World!"}`
-
-[source,bash]
-----
-curl -X GET http://localhost:8080/greet/Joe
-----
-Expected Output:
-`{"message":"Hello Joe!"}`
-
-[source,bash]
-----
-curl -X PUT -H "Content-Type: application/json" -d '{"greeting" : "Hola"}' http://localhost:8080/greet/greeting
-----
-
-[source,bash]
-----
-curl -X GET http://localhost:8080/greet/Jose
-----
-Expected Output:
-`{"message":"Hola Jose!"}`
 
 == Try health
 
 [source,bash]
 ----
-curl -s -X GET http://localhost:8080/health
+curl -s -X GET http://localhost:8181/health
 ----
 Expected Output:
 `{"outcome":"UP",...}`
@@ -67,7 +29,7 @@ Prometheus Format:
 
 [source,bash]
 ----
-curl -s -X GET http://localhost:8080/metrics
+curl -s -X GET http://localhost:8181/metrics
 ----
 Output:
 `# TYPE base:gc_g1_young_generation_count gauge...`
