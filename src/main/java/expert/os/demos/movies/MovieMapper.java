@@ -7,5 +7,6 @@ public interface MovieMapper {
 
     MovieResponse toResponse(Movie movie);
 
+    Movie toEntity(MovieRequest movieRequest);
 
 }

@@ -27,4 +27,37 @@ public class Movie {
 
     @Column
     private List<String> actors;
+
+
+    public String getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public Year getReleaseYear() {
+        return releaseYear;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public List<String> getActors() {
+        return actors;
+    }
+
+    public void update(Movie movie) {
+        this.title = movie.title;
+        this.genre = movie.genre;
+        this.releaseYear = movie.releaseYear;
+        this.director = movie.director;
+        this.actors = movie.actors;
+    }
 }

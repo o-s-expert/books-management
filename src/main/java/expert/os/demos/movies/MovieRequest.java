@@ -24,4 +24,24 @@ public class MovieRequest {
 
     @Schema(description = "List of actors in the movie", example = "[\"Leonardo DiCaprio\", \"Joseph Gordon-Levitt\"]")
     private List<String> actors;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public List<String> getActors() {
+        return actors;
+    }
 }
