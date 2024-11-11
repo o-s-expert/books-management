@@ -1,6 +1,6 @@
 package expert.os.demos.movies;
 
-public enum movies {
+public enum Genre {
     ACTION,
     COMEDY,
     DRAMA,
