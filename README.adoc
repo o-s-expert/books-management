@@ -83,14 +83,14 @@ Below are examples of using `curl` to interact with the API.
 ----
 # Example: Fetch all books
 curl -X GET http://localhost:8181/books
+curl -X POST -H "Content-Type: application/json" -d '{"title":"The Catcher in the Rye","genre":"FICTION","publicationYear":1951,"author":"J.D. Salinger","tags":["Classic","Literature","American"]}' http://localhost:8181/books
+curl -X POST -H "Content-Type: application/json" -d '{"title":"1984","genre":"DYSTOPIAN","publicationYear":1949,"author":"George Orwell","tags":["Political","Classic","Science Fiction"]}' http://localhost:8181/books
+curl -X POST -H "Content-Type: application/json" -d '{"title":"To Kill a Mockingbird","genre":"FICTION","publicationYear":1960,"author":"Harper Lee","tags":["Classic","Justice","American"]}' http://localhost:8181/books
+curl -X POST -H "Content-Type: application/json" -d '{"title":"Brave New World","genre":"SCIENCE_FICTION","publicationYear":1932,"author":"Aldous Huxley","tags":["Dystopian","Classic","Philosophical"]}' http://localhost:8181/books
+# Example: Update a book
+curl -X PUT -H "Content-Type: application/json" -d '{"title":"The Catcher in the Rye - Updated","genre":"FICTION","publicationYear":1951,"author":"J.D. Salinger","tags":["Classic","Literature","American","Updated"]}' http://localhost:8181/books/{id}
 
-# Example: Add a new movie
-curl -X POST -H "Content-Type: application/json" -d '{"title": "Inception", "genre": "SCIENCE_FICTION", "releaseYear": 2010, "director": "Christopher Nolan", "actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt"]}' http://localhost:8181/books
-
-# Example: Update a movie
-curl -X PUT -H "Content-Type: application/json" -d '{"title": "Inception", "genre": "SCIENCE_FICTION", "releaseYear": 2010, "director": "Christopher Nolan", "actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt"]}' http://localhost:8181/books/{id}
-
-# Example: Delete a movie
+# Example: Delete a book
 curl -X DELETE http://localhost:8181/books/{id}
 ----
 
