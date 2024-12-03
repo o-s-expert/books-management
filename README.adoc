@@ -1,4 +1,4 @@
-= movies
+= Books
 :toc: auto
 
 Sample Helidon MP project that includes multiple REST operations. This project requires Oracle NoSQL for data storage, which can be run locally or online.
@@ -27,7 +27,7 @@ To build and run this project, use JDK 21.
 [source,bash]
 ----
 mvn package
-java -jar target/movies.jar
+java -jar target/books.jar
 ----
 
 The application will start on `localhost` at port `8181`.
@@ -81,17 +81,17 @@ Below are examples of using `curl` to interact with the API.
 
 [source,bash]
 ----
-# Example: Fetch all movies
-curl -X GET http://localhost:8181/movies
+# Example: Fetch all books
+curl -X GET http://localhost:8181/books
 
 # Example: Add a new movie
-curl -X POST -H "Content-Type: application/json" -d '{"title": "Inception", "genre": "SCIENCE_FICTION", "releaseYear": 2010, "director": "Christopher Nolan", "actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt"]}' http://localhost:8181/movies
+curl -X POST -H "Content-Type: application/json" -d '{"title": "Inception", "genre": "SCIENCE_FICTION", "releaseYear": 2010, "director": "Christopher Nolan", "actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt"]}' http://localhost:8181/books
 
 # Example: Update a movie
-curl -X PUT -H "Content-Type: application/json" -d '{"title": "Inception", "genre": "SCIENCE_FICTION", "releaseYear": 2010, "director": "Christopher Nolan", "actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt"]}' http://localhost:8181/movies/{id}
+curl -X PUT -H "Content-Type: application/json" -d '{"title": "Inception", "genre": "SCIENCE_FICTION", "releaseYear": 2010, "director": "Christopher Nolan", "actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt"]}' http://localhost:8181/books/{id}
 
 # Example: Delete a movie
-curl -X DELETE http://localhost:8181/movies/{id}
+curl -X DELETE http://localhost:8181/books/{id}
 ----
 
 == Building the Docker Image
@@ -100,7 +100,7 @@ To build a Docker image for the application:
 
 [source,bash]
 ----
-docker build -t movies .
+docker build -t books .
 ----
 
 == Running the Docker Image
@@ -109,7 +109,7 @@ To run the Docker image:
 
 [source,bash]
 ----
-docker run --rm -p 8181:8181 movies:latest
+docker run --rm -p 8181:8181 books:latest
 ----
 
 == Run the Application in Kubernetes
@@ -130,8 +130,8 @@ kubectl get pods                            # Verify connectivity to cluster
 ----
 kubectl create -f app.yaml                              # Deploy application
 kubectl get pods                                        # Wait for quickstart pod to be RUNNING
-kubectl get service movies                              # Get service info
-kubectl port-forward service/movies 8181:8080           # Forward service port to 8181
+kubectl get service books                              # Get service info
+kubectl port-forward service/books 8181:8080           # Forward service port to 8181
 ----
 
 You can now exercise the application as described above but use port `8181`.
