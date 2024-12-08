@@ -8,5 +8,7 @@ public enum BookGenre {
     SCIENCE_FICTION,
     FANTASY,
     ROMANCE,
-    THRILLER
+    THRILLER,
+    FICTION,
+    DYSTOPIAN
 }
